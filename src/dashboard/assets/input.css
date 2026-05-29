@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  --font-sans:
+    "Roboto", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif:
+    "Roboto", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+.ag-theme-singapore {
+  --ag-font-family: Roboto, sans-serif;
+  --ag-font-size: 12px;  
+  --ag-foreground-color: #1e2939;
+  --ag-icon-color: #1e2939;
+  --ag-header-background-color: #f3f4f6; 
+  --ag-row-hover-color: #f9fafb;
+
+}
+
+.ag-theme-singapore .ag-paging-panel {
+    background: #f3f4f6;
+    color: #1e2939;
+    font-size: 12px;
+    padding: 10px 20px;
+}
+
+
+.row-even {
+  background-color: #ffffff;
+}
+.row-odd {
+  background-color: #f3f4f6;
+}
