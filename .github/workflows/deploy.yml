@@ -85,6 +85,7 @@ jobs:
 
         # END - Docker auth and build
 
+        id: 'deploy'
         uses: 'google-github-actions/deploy-cloudrun@33553064113a37d688aa6937bacbdc481580be17' # google-github-actions/deploy-cloudrun@v2
         with:
           service: '${{ env.SERVICE }}'
