@@ -113,7 +113,7 @@ def load_data_cloud() -> pd.DataFrame:
 
 
 @cache
-def load_data_address_cloud() -> pd.DataFrame:
+def load_address_cloud() -> pd.DataFrame:
     data = load_blob_bytes("address.csv")
 
     df = pd.read_csv(data)
@@ -122,7 +122,7 @@ def load_data_address_cloud() -> pd.DataFrame:
 
 
 @cache
-def load_data_mrt_cloud() -> pd.DataFrame:
+def load_mrt_cloud() -> pd.DataFrame:
     data = load_blob_bytes("mrt.csv")
 
     df = pd.read_csv(data)
