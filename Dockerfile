@@ -1,5 +1,5 @@
 # ── Stage 1: Build Tailwind CSS ──────────────────────────────
-FROM node:20-slim AS css-builder
+FROM node:24-slim AS css-builder
 
 WORKDIR /app
 
