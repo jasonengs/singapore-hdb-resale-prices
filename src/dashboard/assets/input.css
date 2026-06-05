@@ -1,7 +1,7 @@
-@import "tailwindcss";
-
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined");
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
 
 :root {
   --font-sans:
@@ -9,6 +9,61 @@
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif:
     "Roboto", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+.dash-dropdown {
+  font-size: 12px;
+  border: 1px solid #314158;
+  color:#314158;
+  accent-color: #00A6F4;
+  outline-color: #00A6F4;
+  width: 170px;
+}
+
+#resale-price-distribution-type-dropdown, #resale-price-correlation-metric-dropdown {
+  width: 150px;
+}
+
+#town-ranking-sort-dropdown {
+  width: 100px;
+}
+#resale-market-geographic-dropdown {
+  width: 130px;
+}
+
+
+.dash-dropdown:focus {
+  border: 1px solid #00A6F4;
+  outline: 1px solid #00A6F4;
+}
+
+.dash-dropdown, .dash-dropdown-content {
+  font-size: 12px;
+}
+
+.dash-dropdown-placeholder {
+  color: #99a1af;
+}
+
+.dash-dropdown-search {
+  color: #99a1af
+}
+
+.dash-dropdown-search-container:focus-within .dash-dropdown-search-icon {
+  color: #00A6F4;
+}
+
+.dash-dropdown-search-container {
+  color :#314158;
+  font-size: 12px;
+}
+.dash-dropdown-search-container:focus-within {
+  border: 1px solid #00A6F4;
+  outline: 1px solid #00A6F4; 
+}
+
+.dash-options-list-option:not(:has(input[disabled])):hover, .dash-options-list-option:not(:has(input[disabled])):focus-within {
+  color:  #00A6F4;
 }
 
 .ag-theme-singapore {
@@ -21,13 +76,17 @@
 
 }
 
+.ag-input-wrapper, .ag-picker-field-wrapper {
+  border: 1px solid #314158;
+  border-radius: 5px;
+}
+
 .ag-theme-singapore .ag-paging-panel {
     background: #f3f4f6;
     color: #1e2939;
     font-size: 12px;
     padding: 10px 20px;
 }
-
 
 .row-even {
   background-color: #ffffff;

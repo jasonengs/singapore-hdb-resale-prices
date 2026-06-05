@@ -3,11 +3,11 @@ from dash import html
 from dashboard.components.cards import create_chart_card, create_kpi_card
 from dashboard.components.dropdowns import create_global_dropdown, create_local_dropdown
 from dashboard.components.tables import create_ag_grid
-from dashboard.datasets.loader import load_data
+from dashboard.datasets.loader import load_data_cloud
 
 
 def create_layout() -> html.Div:
-    df = load_data()
+    df = load_data_cloud()
 
     div = html.Div(
         className="min-h-screen bg-gray-50 font-sans",

@@ -10,11 +10,15 @@ An interactive analytics dashboard for exploring Singapore HDB resale flat trans
 - Geocodes flat addresses via the Google Maps Geocoding API
 - Enriches records with nearby MRT stations via the Google Maps Places API
 - Cleans and transforms raw data into analysis-ready datasets
+- Reads processed data from Google Cloud Storage in cloud-hosted deployments
 - Serves an interactive Dash dashboard with views for trends, distributions, rankings, correlations, comparisons, choropleth maps, and scatter maps
+- Ships as a Docker container served by [Gunicorn](https://gunicorn.org/), deployable to Google Cloud Run
+- Provides a GitHub Actions workflow for automated CI/CD to Cloud Run
 
 > **Pre-fetched data is included under `data/`.** You can skip ingestion entirely and go straight to running the dashboard unless you need fresh data.
 
 > Clean data is also available on [HuggingFace](https://huggingface.co/datasets/jasonengs/singapore_hdb_resale_prices).
+
 ---
 
 ## Preview
@@ -26,8 +30,6 @@ An interactive analytics dashboard for exploring Singapore HDB resale flat trans
 ![Map](assets/preview_map.png)
 ![Table](assets/preview_table.png)
 
-
-
 ---
 
 ## Prerequisites
@@ -37,6 +39,14 @@ An interactive analytics dashboard for exploring Singapore HDB resale flat trans
 | Python | >=3.11 |
 | [uv](https://docs.astral.sh/uv/) | Latest |
 | Node.js + npm | For TailwindCSS CLI |
+
+### Cloud Deployment
+
+| Requirement | Purpose |
+|---|---|
+| [Docker](https://docs.docker.com/get-docker/) | Build and run container images |
+| [Google Cloud CLI (`gcloud`)](https://cloud.google.com/sdk/docs/install) | Interact with GCP services |
+| Google Cloud account | Cloud Run, Artifact Registry, and GCS |
 
 **Optional — only needed to refresh data:**
 
@@ -80,9 +90,6 @@ Create a `.env` file in the project root. API keys are only required if you inte
 # Required only for data ingestion / refresh
 DATA_GOV_API_KEY="YOUR_DATA_GOV_SG_API_KEY"
 GOOGLE_MAPS_API_KEY="YOUR_GOOGLE_MAPS_API_KEY"
-
-# Required for Font Awesome icons in the dashboard
-FONT_AWESOME_KIT="YOUR_FONTAWESOME_KIT_ID"
 ```
 
 ---
@@ -130,6 +137,9 @@ Skip this section if you are using the pre-fetched data in `data/`.
 
 ```
 root/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml           # GitHub Actions CI/CD pipeline
 ├── data/                        # Raw and processed data files
 │   ├── address.csv
 │   ├── latest_data.csv
@@ -156,6 +166,9 @@ root/
     ├── ingestion/               # API fetchers
     ├── schemas/                 # Pydantic validation models
     └── main.py
+├── .dockerignore
+├── Dockerfile
+└── pyproject.toml
 ```
 
 ---
@@ -169,12 +182,16 @@ root/
 | Dashboard framework | [Dash](https://dash.plotly.com/) + [Dash AG Grid](https://dash.plotly.com/dash-ag-grid) |
 | Charts | [Plotly](https://plotly.com/python/) |
 | Geospatial | [GeoPandas](https://geopandas.org/), [GeoPy](https://geopy.readthedocs.io/) |
-| Styling | [TailwindCSS](https://tailwindcss.com/) (CLI), [Font Awesome](https://fontawesome.com/) |
+| Styling | [TailwindCSS](https://tailwindcss.com/) (CLI) |
 | Data | [pandas](https://pandas.pydata.org/docs/), [NumPy](https://numpy.org/doc/stable/) |
 | Validation | [Pydantic](https://pydantic.dev/docs/) |
 | HTTP | [AIOHTTP](https://docs.aiohttp.org/en/stable/), [aiolimiter](https://aiolimiter.readthedocs.io/en/stable/) |
 | Config | [python-dotenv](https://github.com/theskumar/python-dotenv) |
-
+| WSGI server | [Gunicorn](https://gunicorn.org/) |
+| Cloud storage | [Google Cloud Storage](https://cloud.google.com/storage) (`google-cloud-storage`) |
+| Container | [Docker](https://www.docker.com/) |
+| Hosting | [Google Cloud Run](https://cloud.google.com/run) |
+| CI/CD | [GitHub Actions](https://github.com/features/actions) |
 ---
 
 ## Dashboard Views
@@ -193,7 +210,7 @@ root/
 ---
 
 ## Notebooks
- 
+
 The `notebook/` directory contains Jupyter notebooks for ad-hoc exploration:
 
 | Notebook | Purpose |
@@ -207,7 +224,9 @@ The `notebook/` directory contains Jupyter notebooks for ad-hoc exploration:
 
 - **Google Maps Places API is not free.** Each MRT lookup incurs a charge. Review your usage and billing limits before running a full re-ingestion.
 - **Google Maps Geocoding API** is free up to 10,000 requests per month. Exceeding this threshold will incur charges.
+- **Google Cloud Storage** charges apply for storage and egress. Costs are typically minimal for this dataset but depend on traffic volume.
 - **Google Maps API restrictions** (referrer, IP, or key scope) may block requests during ingestion if your API key is not configured for server-side use.
 - **Rate limiting:** API calls are throttled via `aiolimiter`; a full re-ingestion takes time.
 - **Geocoding accuracy** depends on the address formatting in the source data.
-- **Local use only:** The dashboard has no authentication or multi-user support.
+- **Cloud Run cold starts:** Instances may take a few seconds to initialise on first load if they have been scaled to zero.
+- **Local use only (without Cloud Run):** The dashboard has no authentication or multi-user support.

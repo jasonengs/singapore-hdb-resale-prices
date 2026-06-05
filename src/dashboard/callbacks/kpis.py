@@ -3,7 +3,7 @@ from collections.abc import Hashable
 import pandas as pd
 from dash import Input, Output, callback
 
-from dashboard.datasets.loader import load_data
+from dashboard.datasets.loader import load_data_cloud
 from dashboard.metrics.formatters import format_metric_and_pct_change
 from dashboard.metrics.lookup import get_metric_with_pct_change
 from dashboard.models.kpis import DashboardKpis, KpiResult
@@ -46,7 +46,7 @@ def register_kpis_callbacks() -> None:
         selected_town: str | None,
         selected_flat_type: str | None,
     ) -> DashboardKpis:
-        df = load_data()
+        df = load_data_cloud()
 
         filtered_year_df = df.pipe(filter_by_year, selected_year, True).pipe(
             filter_by_dropdowns, selected_quarter, selected_town, selected_flat_type

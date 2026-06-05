@@ -375,7 +375,7 @@ wheels = [
 
 [[package]]
 name = "dash"
-version = "3.3.0"
+version = "4.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "flask" },
@@ -388,9 +388,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "werkzeug" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e2/f9/516671861cf190bda37f6afa696d8a6a6ac593f23d8cf198e16faca044f5/dash-3.3.0.tar.gz", hash = "sha256:eaaa7a671540b5e1db8066f4966d0277d21edc2c7acdaec2fd6d198366a8b0df", size = 7579436, upload-time = "2025-11-12T15:51:54.919Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/44/da/a13ae3a6528bd51a6901461dbff4549c6009de203d6249a89b9a09ac5cfb/dash-4.1.0.tar.gz", hash = "sha256:17a92a87b0c1eacc025079a705e44e72cd4c5794629c0a2909942b611faeb595", size = 6927689, upload-time = "2026-03-23T20:39:47.578Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/cf/a4853e5b2b2bea55ae909095a8720b3ed50d07bdd40cbeafcedb5a6c47da/dash-3.3.0-py3-none-any.whl", hash = "sha256:8f52415977f7490492dd8a3872279160be8ff253ca9f4d49a4e3ba747fa4bd91", size = 7919707, upload-time = "2025-11-12T15:51:47.432Z" },
+    { url = "https://files.pythonhosted.org/packages/2a/00/10b1f8b3885fc4add1853e9603af15c593fa0be20d37c158c4d811e868dc/dash-4.1.0-py3-none-any.whl", hash = "sha256:1af9f302bc14061061012cdb129b7e370d3604b12a7f730b252ad8e4966f01f7", size = 7232489, upload-time = "2026-03-23T20:39:40.658Z" },
 ]
 
 [[package]]
@@ -618,6 +618,27 @@ wheels = [
 ]
 
 [[package]]
+name = "google-cloud"
+version = "0.34.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/47/0e/8bf108fa9e3e036fe37a86598f1315e7b8de90b89012fd65704dc30ac6ad/google-cloud-0.34.0.tar.gz", hash = "sha256:01430187cf56df10a9ba775dd547393185d4b40741db0ea5889301f8e7a9d5d3", size = 2514, upload-time = "2018-07-30T19:08:17.761Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ba/b1/7c54d1950e7808df06642274e677dbcedba57f75307adf2e5ad8d39e5e0e/google_cloud-0.34.0-py2.py3-none-any.whl", hash = "sha256:fb1ab7b0548fe44b3d538041f0a374505b7f990d448a935ea36649c5ccab5acf", size = 1839, upload-time = "2018-07-30T19:08:16.739Z" },
+]
+
+[[package]]
+name = "gunicorn"
+version = "26.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "packaging" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6d/b7/a4a3f632f823e432ce6bc65f62961b7980c898c77f075a2f7118cb3846fe/gunicorn-26.0.0.tar.gz", hash = "sha256:ca9346f85e3a4aeeb64d491045c16b9a35647abd37ea15efe53080eb8b090baf", size = 727286, upload-time = "2026-05-05T06:38:25.529Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e6/40/9c2384fc2be4ad25dd4a49decd5ad9ea5a3639814c11bd40ab77cb9f0a14/gunicorn-26.0.0-py3-none-any.whl", hash = "sha256:40233d26a5f0d1872916188c276e21641155111c2853f0c2cd55260aec0d24fc", size = 212009, upload-time = "2026-05-05T06:38:23.007Z" },
+]
+
+[[package]]
 name = "hdb-resale"
 version = "0.1.0"
 source = { virtual = "." }
@@ -628,6 +649,8 @@ dependencies = [
     { name = "dash-ag-grid" },
     { name = "geopandas" },
     { name = "geopy" },
+    { name = "google-cloud" },
+    { name = "gunicorn" },
     { name = "ipykernel" },
     { name = "lxml" },
     { name = "nbformat" },
@@ -647,6 +670,8 @@ requires-dist = [
     { name = "dash-ag-grid", specifier = ">=33.3.3" },
     { name = "geopandas", specifier = ">=1.1.2" },
     { name = "geopy", specifier = ">=2.4.1" },
+    { name = "google-cloud", specifier = ">=0.34.0" },
+    { name = "gunicorn", specifier = ">=26.0.0" },
     { name = "ipykernel", specifier = ">=7.1.0" },
     { name = "lxml", specifier = ">=6.0.2" },
     { name = "nbformat", specifier = ">=5.10.4" },

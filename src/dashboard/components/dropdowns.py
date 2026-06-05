@@ -21,7 +21,6 @@ def create_global_dropdown(df: pd.DataFrame, category: str) -> dcc.Dropdown:
         value=value,
         clearable=clearable,
         placeholder=placeholder,
-        className="text-sm w-[160px]",
     )
 
     return dropdown
@@ -43,7 +42,7 @@ def create_local_dropdown(
                 ],
                 value=value.replace(" ", "_") or options[0].replace(" ", "_"),
                 clearable=False,
-                className="w-[160px] text-xs",
+                searchable=False,
             ),
         ],
     )

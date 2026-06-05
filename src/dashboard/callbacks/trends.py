@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 from dash import Input, Output, callback
 
-from dashboard.datasets.loader import load_data
+from dashboard.datasets.loader import load_data_cloud
 from dashboard.transforms.aggregations import aggregate_df
 from dashboard.transforms.enrichment import fill_missing_months
 from dashboard.transforms.filters import filter_by_dropdowns, filter_by_year
@@ -26,7 +26,7 @@ def register_trends_callbacks() -> None:
         selected_flat_type: str | None,
     ) -> go.Figure:
 
-        df = load_data()
+        df = load_data_cloud()
 
         processed_df = (
             df.pipe(filter_by_year, selected_year)
@@ -56,7 +56,7 @@ def register_trends_callbacks() -> None:
         selected_flat_type: str | None,
     ) -> go.Figure:
 
-        df = load_data()
+        df = load_data_cloud()
 
         processed_df = df.pipe(
             filter_by_dropdowns, selected_quarter, selected_town, selected_flat_type

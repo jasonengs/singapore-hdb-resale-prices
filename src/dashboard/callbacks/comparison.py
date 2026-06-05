@@ -2,13 +2,10 @@ import pandas as pd
 import plotly.graph_objects as go
 from dash import Input, Output, callback
 
-from dashboard.datasets.loader import load_data
+from dashboard.datasets.loader import load_data_cloud
 from dashboard.transforms.aggregations import add_pct_change, aggregated_by_measure
 from dashboard.transforms.enrichment import assign_badge, encode_pct_change
-from dashboard.transforms.filters import (
-    filter_by_dropdowns,
-    filter_by_year,
-)
+from dashboard.transforms.filters import filter_by_dropdowns, filter_by_year
 from dashboard.viz.comparison import build_year_on_year_regional_butterfly_chart
 from dashboard.viz.figure import get_hover_pre_suffix, get_hover_suffix
 
@@ -29,7 +26,7 @@ def register_comparison_callbacks() -> None:
         measure: str,
     ) -> go.Figure:
 
-        df = load_data()
+        df = load_data_cloud()
 
         processed_df = (
             df.pipe(filter_by_year, selected_year, True)

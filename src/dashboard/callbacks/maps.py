@@ -1,8 +1,12 @@
 import plotly.graph_objects as go
 from dash import Input, Output, callback
 
-from dashboard.datasets.geo import load_geojson
-from dashboard.datasets.loader import load_address, load_data, load_mrt
+from dashboard.datasets.loader import (
+    load_address_cloud,
+    load_data_cloud,
+    load_geojson_cloud,
+    load_mrt_cloud,
+)
 from dashboard.transforms.aggregations import add_pct_change, aggregated_by_measure
 from dashboard.transforms.enrichment import (
     assign_color,
@@ -35,11 +39,11 @@ def register_maps_callbacks() -> None:
         measure: str,
     ) -> go.Figure:
 
-        df = load_data()
+        df = load_data_cloud()
 
         geographic = "pln_area" if selected_geographic == "planning_area" else "region"
 
-        geojson = load_geojson(geographic)
+        geojson = load_geojson_cloud(geographic)
 
         processed_df = (
             df.pipe(filter_by_year, selected_year, True)
@@ -84,9 +88,9 @@ def register_maps_callbacks() -> None:
         measure: str,
     ) -> go.Figure:
 
-        df = load_data()
-        mrt_df = load_mrt()
-        address_df = load_address()
+        df = load_data_cloud()
+        mrt_df = load_mrt_cloud()
+        address_df = load_address_cloud()
 
         processed_df = (
             df.pipe(filter_by_year, selected_year)

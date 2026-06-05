@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 from dash import Input, Output, callback
 
-from dashboard.datasets.loader import load_data
+from dashboard.datasets.loader import load_data_cloud
 from dashboard.transforms.filters import filter_by_dropdowns, filter_by_year
 from dashboard.viz.correlation import build_resale_price_correlation_scatter
 from dashboard.viz.figure import (
@@ -26,7 +26,7 @@ def register_correlation_callbacks() -> None:
         selected_town: str | None,
         x_metric: str,
     ) -> go.Figure:
-        df = load_data()
+        df = load_data_cloud()
 
         processed_df = (
             df.pipe(filter_by_year, selected_year)

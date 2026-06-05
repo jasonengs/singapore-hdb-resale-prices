@@ -1,13 +1,9 @@
 import plotly.graph_objects as go
 from dash import Input, Output, callback
 
-from dashboard.datasets.loader import load_data
+from dashboard.datasets.loader import load_data_cloud
 from dashboard.transforms.aggregations import aggregated_by_measure
-from dashboard.transforms.filters import (
-    filter_by_dropdowns,
-    filter_by_year,
-    sort_df,
-)
+from dashboard.transforms.filters import filter_by_dropdowns, filter_by_year, sort_df
 from dashboard.viz.figure import (
     get_empty_figure,
     get_hover_pre_suffix,
@@ -35,7 +31,7 @@ def register_ranking_callbacks() -> None:
         measure: str,
     ) -> go.Figure:
 
-        df = load_data()
+        df = load_data_cloud()
 
         processed_df = (
             df.pipe(filter_by_year, selected_year)
