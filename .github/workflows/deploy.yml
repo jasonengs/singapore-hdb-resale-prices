@@ -37,7 +37,7 @@ on:
 env:
   PROJECT_ID: 'singapore-hdb-dashboard' # TODO: update to your Google Cloud project ID
   REGION: 'asia-southeast1' # TODO: update to your region
-  REPOSITORY: ' hdb-resale-web' #TODO: update to your artifact repository name
+  REPOSITORY: 'hdb-resale-web' #TODO: update to your artifact repository name
   SERVICE: 'singapore-hdb-resale-prices-dashboard-dev' # TODO: update to your service name
   WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }} # TODO: update this 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider' and add it into repo secret
 
