@@ -32,24 +32,32 @@ name: 'Build and Deploy to Cloud Run'
 on:
   push:
     branches:
+      - main
       - dev
 
-env:
-  PROJECT_ID: 'singapore-hdb-dashboard' # TODO: update to your Google Cloud project ID
-  REGION: 'asia-southeast1' # TODO: update to your region
-  REPOSITORY: 'hdb-resale-web' #TODO: update to your artifact repository name
-  SERVICE: 'singapore-hdb-resale-prices-dashboard-dev' # TODO: update to your service name
-  WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }} # TODO: update this 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider' and add it into repo secret
-
-
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: 'ubuntu-latest'
 
+  # Dynamically set environment based on branch
+    environment: ${{ github.ref_name == 'main' && 'production' || 'development' }}
+
     permissions:
       contents: 'read'
       id-token: 'write'
+
+    env:
+      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      REGION: 'asia-southeast1'
+      REPOSITORY: ${{ secrets.GCP_REPOSITORY }}
+      SERVICE_NAME: ${{ secrets.GCP_SERVICE_NAME }}
+      SERVICE_ACCOUNT: '${{ secrets.GCP_SERVICE_ACCOUNT }}'
+      WORKLOAD_IDENTITY_PROVIDER: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+
 
     steps:
       - name: 'Checkout'
@@ -64,7 +72,7 @@ jobs:
         uses: 'google-github-actions/auth@f112390a2df9932162083945e46d439060d66ec2' # google-github-actions/auth@v2
         with:
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: 'github-actions-dev@singapore-hdb-dashboard.iam.gserviceaccount.com'
+          service_account: '${{ env.SERVICE_ACCOUNT }}'
                     
       # BEGIN - Docker auth and build
       #
@@ -74,24 +82,24 @@ jobs:
 
       - name: 'Build and Push Container'
         run: |-
-          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
+          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:${{ github.sha }}"
           docker build --tag "${DOCKER_TAG}" .
           docker push "${DOCKER_TAG}"
-      - name: 'Deploy to Cloud Run'
 
         # END - Docker auth and build
 
+      - name: 'Deploy to Cloud Run'
         id: 'deploy'
         uses: 'google-github-actions/deploy-cloudrun@33553064113a37d688aa6937bacbdc481580be17' # google-github-actions/deploy-cloudrun@v2
         with:
-          service: '${{ env.SERVICE }}'
+          service: '${{ env.SERVICE_NAME }}'
           region: '${{ env.REGION }}'
           # NOTE: If using a pre-built image, update the image name below:
 
-          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}'
+          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:${{ github.sha }}'
           flags: '--allow-unauthenticated'
       # If required, use the Cloud Run URL output in later steps
       - name: 'Show output'
-        run: |2-
+        run: |
 
-          echo ${{ steps.deploy.outputs.url }}
+          echo "${{ steps.deploy.outputs.url }}"
